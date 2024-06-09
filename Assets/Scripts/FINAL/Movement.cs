@@ -8,51 +8,8 @@ public class Movement : MonoBehaviour
     public float stepSize = 0.2f;
     public float stepDuration = 0.1f;
     public float turnAngle = 90f;
-    private GameObject robot;
 
-    public IEnumerator ProcessInput(string input, GameObject robot_obj)
-    {
-        robot = robot_obj;
-        string[] actions = input.Split(',');
-
-        foreach (string action in actions)
-        {
-            if (string.IsNullOrWhiteSpace(input))
-            {
-                yield break;
-            }
-
-            string trimmedAction = action.Trim().ToLower();
-            if (trimmedAction == "move forward")
-            {
-                yield return Walking(Vector3.forward);
-            }
-            else if (trimmedAction == "move backward")
-            {
-                yield return Walking(Vector3.back);
-            }
-            else if (trimmedAction == "slide forward")
-            {
-                yield return Sliding(Vector3.forward);
-            }
-            else if (trimmedAction == "slide backward")
-            {
-                yield return Sliding(Vector3.back);
-            }
-            else if (trimmedAction == "turn right")
-            {
-                Turn(turnAngle);
-            }
-            else if (trimmedAction == "turn left")
-            {
-                Turn(-turnAngle);
-            }
-        }
-
-        yield break;
-    }
-
-    IEnumerator Walking(Vector3 direction)
+    public IEnumerator Walking(Vector3 direction, GameObject robot)
     {
         Vector3 targetPosition = robot.transform.position + direction * distance;
         while (Vector3.Distance(robot.transform.position, targetPosition) > 0.01f)
@@ -80,7 +37,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    IEnumerator Sliding(Vector3 direction)
+    public IEnumerator Sliding(Vector3 direction, GameObject robot)
     {
         Vector3 targetPosition = robot.transform.position + direction * distance;
         while (Vector3.Distance(robot.transform.position, targetPosition) > 0.01f)
@@ -90,8 +47,15 @@ public class Movement : MonoBehaviour
         }
     }
 
-    void Turn(float turnAngle)
+    public IEnumerator Turn(bool rightTurn, GameObject robot)
     {
-        robot.transform.Rotate(Vector3.up, turnAngle);
+        if (rightTurn)
+        {
+            robot.transform.Rotate(Vector3.up, turnAngle);
+        } else
+        {
+            robot.transform.Rotate(Vector3.up, -turnAngle);
+        }
+        yield return null;
     }
 }

@@ -1,4 +1,4 @@
-/*using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -24,7 +24,7 @@ public class JammoBrain : MonoBehaviour
     [HideInInspector]
     public int maxScoreIndex; // Index of the action with the highest score
 
-    public JammoBehaviorTwo jammoBehavior;
+    public JammoBehavior jammoBehavior;
 
     private SentenceSimilarity sentenceSimilarity = new SentenceSimilarity();
 
@@ -63,4 +63,3 @@ public class JammoBrain : MonoBehaviour
         return (maxScore, maxScoreIndex);
     }
 }
-*/
