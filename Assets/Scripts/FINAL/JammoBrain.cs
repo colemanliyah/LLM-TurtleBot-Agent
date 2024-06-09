@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -13,7 +13,7 @@ using System.Linq;
 /// This class handles:
 ///     - API Call to Sentence Similarity: Given a user input text and a set of sentences candidates, call HF model to score each of them.
 /// </summary>
-public class JammoBrain: MonoBehaviour
+public class JammoBrain : MonoBehaviour
 {
     [HideInInspector]
     public string source_sentence; // User input text
@@ -24,7 +24,7 @@ public class JammoBrain: MonoBehaviour
     [HideInInspector]
     public int maxScoreIndex; // Index of the action with the highest score
 
-    public JammoBehavior jammoBehavior;
+    public JammoBehaviorTwo jammoBehavior;
 
     private SentenceSimilarity sentenceSimilarity = new SentenceSimilarity();
 
@@ -48,18 +48,19 @@ public class JammoBrain: MonoBehaviour
     /// <param name="sentences">all sentences to compare to user input sentence</param>
     public (float maxScore, int maxScoreIndex) RankSimilarityScores(string source_sentence, string[] sentences)
     {
-        HuggingFaceAPI.SentenceSimilarity(source_sentence, results => 
+        HuggingFaceAPI.SentenceSimilarity(source_sentence, results =>
         {
             maxScore = sentenceSimilarity.FindBestSimilarityScoreValue(results);
             maxScoreIndex = sentenceSimilarity.FindBestSimilarityScoreIndex(results);
             jammoBehavior.Utility(maxScore, maxScoreIndex);
-        }, 
-        error => 
+        },
+        error =>
         {
             // Handle errors
             Debug.LogError(error);
-        }, 
+        },
         sentences);
         return (maxScore, maxScoreIndex);
     }
 }
+*/

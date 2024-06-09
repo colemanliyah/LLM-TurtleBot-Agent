@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -38,14 +38,14 @@ public class JammoBehavior : MonoBehaviour
 
     [Header("Robot list of actions")]
     public List<Actions> actionsList;
-    
+
     [Header("NavMesh and Animation")]
     public Animator anim;                       // Robot Animator
     public NavMeshAgent agent;                  // Robot agent (takes care of robot movement in the NavMesh)
     public float reachedPositionDistance;       // Tolerance distance between the robot and object.
     public float reachedObjectPositionDistance; // Tolerance distance between the robot and object.
     public Transform playerPosition;            // Our position
-    public GameObject goalObject;               
+    public GameObject goalObject;
     public GameObject grabPosition;             // Position where the object will be placed during the grab
 
     public Camera cam;                          // Main Camera
@@ -146,12 +146,12 @@ public class JammoBehavior : MonoBehaviour
     {
         jammoBrain.RankSimilarityScores(prompt, sentencesArray);
     }
-        
+
 
     private void Update()
     {
         // Here's the State Machine, where given its current state, the agent will act accordingly
-        switch(state)
+        switch (state)
         {
             default:
             case State.Idle:
@@ -189,7 +189,7 @@ public class JammoBehavior : MonoBehaviour
 
             case State.MoveTo:
                 agent.SetDestination(goalObject.transform.position);
-                
+
                 if (Vector3.Distance(transform.position, goalObject.transform.position) < reachedPositionDistance)
                 {
                     state = State.Idle;
@@ -217,3 +217,4 @@ public class JammoBehavior : MonoBehaviour
         }
     }
 }
+*/
