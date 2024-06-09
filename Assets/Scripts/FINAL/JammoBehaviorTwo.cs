@@ -31,8 +31,8 @@ public class JammoBehaviorTwo : MonoBehaviour
         SlideBackward
     }
 
-    /*[Header("Robot Brain")]
-    public JammoBrain jammoBrain;*/
+    [Header("Robot Brain")]
+    public JammoBrain jammoBrain;
 
     [Header("Robot list of actions")]
     public List<Actions> actionsList;
@@ -77,7 +77,7 @@ public class JammoBehaviorTwo : MonoBehaviour
         simpleMovement = robot.GetComponent<Movement>();
     }
 
-/*    public void Utility(float maxScore, int maxScoreIndex)
+    public void Utility(float maxScore, int maxScoreIndex)
     {
         // First we check that the score is > of 0.2, otherwise we let our agent perplexed;
         // This way we can handle strange input text (for instance if we write "Go see the dog!" the agent will be puzzled).
@@ -104,20 +104,20 @@ public class JammoBehaviorTwo : MonoBehaviour
     public void OnOrderGiven(string prompt)
     {
         jammoBrain.RankSimilarityScores(prompt, sentencesArray);
-    }*/
+    }
 
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        /*if (Input.GetKeyDown(KeyCode.Return))
         {
             string prompt = inputField.text;
             StartCoroutine(simpleMovement.ProcessInput(prompt, robot));
             inputField.text = "";
-        }
+        }*/
 
         // Here's the State Machine, where given its current state, the agent will act accordingly'
-        /*switch (state)
+        switch (state)
         {
             default:
             case State.Idle:
@@ -127,7 +127,7 @@ public class JammoBehaviorTwo : MonoBehaviour
                 StartCoroutine(simpleMovement.ProcessInput("move forward", robot));
                 state = State.Idle;
                 break;
-        }*/
+        }
 
         /*switch(state)
         {
