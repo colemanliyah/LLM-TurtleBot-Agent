@@ -156,75 +156,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &385928417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3541754001600710738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3995cc3c4d0822f41b0d2be83257f88c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jammoBrain: {fileID: 1986161493}
-  actionsList:
-  - sentence: Hello
-    verb: Hello
-    noun: 
-  - sentence: Happy
-    verb: Happy
-    noun: 
-  - sentence: Show me how you dance
-    verb: Happy
-    noun: 
-  - sentence: Move to the left tree
-    verb: MoveTo
-    noun: LeftTree
-  - sentence: Move to the right tree
-    verb: MoveTo
-    noun: RightTree
-  - sentence: Move to yellow pillar
-    verb: MoveTo
-    noun: YellowPillar
-  - sentence: Move to blue pillar
-    verb: MoveTo
-    noun: BluePillar
-  - sentence: Move to red pillar
-    verb: MoveTo
-    noun: RedPillar
-  - sentence: Move to blue cube
-    verb: BringObject
-    noun: BlueCube
-  - sentence: Bring blue cube
-    verb: BringObject
-    noun: BlueCube
-  - sentence: Move to red cube
-    verb: MoveTo
-    noun: RedCube
-  - sentence: Bring red cube
-    verb: BringObject
-    noun: RedCube
-  - sentence: Move to yellow cube
-    verb: MoveTo
-    noun: YellowCube
-  - sentence: Bring yellow cube
-    verb: BringObject
-    noun: YellowCube
-  anim: {fileID: 7635726065540323131}
-  agent: {fileID: 385928416}
-  reachedPositionDistance: 1
-  reachedObjectPositionDistance: 1.5
-  playerPosition: {fileID: 1074851456}
-  goalObject: {fileID: 1311342940}
-  grabPosition: {fileID: 1692320436}
-  cam: {fileID: 1311342942}
-  inputField: {fileID: 1070312449}
-  sentences: []
-  sentencesArray: []
-  maxScore: 0
-  maxScoreIndex: 0
 --- !u!1 &513990235
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,7 +340,7 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 385928417}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: JammoBehavior, Assembly-CSharp
         m_MethodName: OnOrderGiven
         m_Mode: 0
@@ -1137,7 +1068,7 @@ MonoBehaviour:
   source_sentence: 
   maxScore: 0
   maxScoreIndex: 0
-  jammoBehavior: {fileID: 385928417}
+  jammoBehavior: {fileID: 0}
 --- !u!1 &2058215451
 GameObject:
   m_ObjectHideFlags: 0
@@ -3857,7 +3788,8 @@ GameObject:
   - component: {fileID: 4757836857353277063}
   - component: {fileID: 385928415}
   - component: {fileID: 385928416}
-  - component: {fileID: 385928417}
+  - component: {fileID: 7635726065540323133}
+  - component: {fileID: 7635726065540323132}
   m_Layer: 0
   m_Name: Jammo_Player
   m_TagString: Untagged
@@ -6209,6 +6141,38 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7635726065540323132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3541754001600710738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb8e3269d33beb847a40dd0dfb2436c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  distance: 1
+  stepSize: 0.2
+  stepDuration: 0.1
+  turnAngle: 90
+--- !u!114 &7635726065540323133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3541754001600710738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4062b9087f9e27c4c9f8f32e0c97fb1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  robot: {fileID: 3541754001600710738}
+  cam: {fileID: 0}
+  inputField: {fileID: 1070312449}
 --- !u!1 &7678658564836552210
 GameObject:
   m_ObjectHideFlags: 0
