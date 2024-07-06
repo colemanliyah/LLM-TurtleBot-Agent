@@ -3790,6 +3790,7 @@ GameObject:
   - component: {fileID: 385928416}
   - component: {fileID: 7635726065540323133}
   - component: {fileID: 7635726065540323132}
+  - component: {fileID: 7635726065540323134}
   m_Layer: 0
   m_Name: Jammo_Player
   m_TagString: Untagged
@@ -6171,8 +6172,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   robot: {fileID: 3541754001600710738}
-  cam: {fileID: 0}
   inputField: {fileID: 1070312449}
+  cam: {fileID: 0}
+--- !u!114 &7635726065540323134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3541754001600710738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130726146f4e8264d8d60eb78b9edeec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7678658564836552210
 GameObject:
   m_ObjectHideFlags: 0

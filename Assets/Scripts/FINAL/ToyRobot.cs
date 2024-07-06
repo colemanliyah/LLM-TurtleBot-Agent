@@ -2,26 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Threading;
 
 /// <summary>
 /// This class is used to control the behavior of our Robot 
 /// </summary>
 public class ToyRobot : MonoBehaviour
 {
-
     [Header("Game Object")]
     public GameObject robot;
-
-    private Movement simpleMovement;
-
-    public Camera cam;                          // Main Camera
 
     [Header("Input UI")]
     public TMPro.TMP_InputField inputField;     // Our Input Field UI
 
+    private Movement simpleMovement;
+    private ArduinoController controller;
+
+    private List<string> robot_actions = new List<string> {};
+
+    public Camera cam;                          
+
     private void Awake()
     {
         simpleMovement = robot.GetComponent<Movement>();
+        controller = GetComponent<ArduinoController>();
     }
 
     private IEnumerator ProcessActions(string[] actions)
@@ -29,6 +33,7 @@ public class ToyRobot : MonoBehaviour
         foreach (string action in actions)
         {
             string trimmedAction = action.Trim().ToLower();
+            Thread.Sleep(500);
 
             switch (trimmedAction)
             {
@@ -38,10 +43,12 @@ public class ToyRobot : MonoBehaviour
 
                 case "move forward":
                     yield return StartCoroutine(simpleMovement.Walking(Vector3.forward, robot));
+                    robot_actions.Add("slideF");
                     break;
 
                 case "move backward":
                     yield return StartCoroutine(simpleMovement.Walking(Vector3.back, robot));
+                    robot_actions.Add("slideB");
                     break;
 
                 case "slide forward":
@@ -67,6 +74,16 @@ public class ToyRobot : MonoBehaviour
 
     private void Update()
     {
+        //controller.ControlArdunio("slideF");
+        foreach (string robot_action in robot_actions)
+        {
+            Debug.Log("Reached");
+            for (int i=1; i<=5; i++) // Sending 5 burts of IR signal
+            {
+                controller.ControlArdunio(robot_action);
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.Return))
         {
             string prompt = inputField.text;
@@ -77,5 +94,7 @@ public class ToyRobot : MonoBehaviour
 
             inputField.text = "";
         }
+
+        robot_actions.Clear();
     }
 }
