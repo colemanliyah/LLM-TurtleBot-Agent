@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// This class is used to write out the commands of actions the robot can perform
+/// </summary>
 public class Movement : MonoBehaviour
 {
     public float moveSpeed = 5f;
