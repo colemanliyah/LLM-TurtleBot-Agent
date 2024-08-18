@@ -2,7 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using System.Threading;
+using System.Net.Sockets;
+using System.Text;
+using System;
 
 /// <summary>
 /// This class is used to control the behavior of our Robot 
@@ -16,23 +20,20 @@ public class ToyRobot : MonoBehaviour
     public TMPro.TMP_InputField inputField;     // Our Input Field UI
 
     private Movement simpleMovement;
-    private ArduinoController controller;
-
-    //private List<string> robot_actions = new List<string> {};
-    private string robot_action = "stepF";
 
     public Camera cam;                          
 
     private void Awake()
     {
         simpleMovement = robot.GetComponent<Movement>();
-        controller = GetComponent<ArduinoController>();
     }
 
     private IEnumerator ProcessActions(string[] actions)
     {
         foreach (string action in actions)
         {
+            Debug.Log("HERE");
+            Debug.Log(action);
             string trimmedAction = action.Trim().ToLower();
             Thread.Sleep(500);
 
@@ -42,34 +43,20 @@ public class ToyRobot : MonoBehaviour
                 case "idle":
                     break;
 
-                case "move forward":
+                case "step forward":
                     yield return StartCoroutine(simpleMovement.Walking(Vector3.forward, robot));
-                    robot_action = "stepF";
                     break;
 
-                case "move backward":
+                case "step back":
                     yield return StartCoroutine(simpleMovement.Walking(Vector3.back, robot));
-                    robot_action = "stepB";
-                    break;
-
-                case "slide forward":
-                    yield return StartCoroutine(simpleMovement.Sliding(Vector3.forward, robot));
-                    robot_action = "slideF";
-                    break;
-
-                case "slide backward":
-                    yield return StartCoroutine(simpleMovement.Sliding(Vector3.back, robot));
-                    robot_action = "slideB";
                     break;
 
                 case "turn right":
                     yield return StartCoroutine(simpleMovement.Turn(true, robot));
-                    robot_action = "turnR";
                     break;
 
                 case "turn left":
                     yield return StartCoroutine(simpleMovement.Turn(false, robot));
-                    robot_action = "turnL";
                     break;
             }
         }
@@ -79,27 +66,45 @@ public class ToyRobot : MonoBehaviour
 
     private void Update()
     {
-        controller.ControlArdunio(robot_action);
-        /*foreach (string robot_action in robot_actions)
-        {
-            Debug.Log("Reached");
-            for (int i = 1; i <= 10; i++) // Sending 5 burts of IR signal
-            {
-                controller.ControlArdunio(robot_action);
-            }
-        }*/
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
             string prompt = inputField.text;
 
-            string[] actions = prompt.Split(',');
+            Debug.Log(prompt);
+
+            string[] actions = SendToPython(prompt);
 
             StartCoroutine(ProcessActions(actions));
 
             inputField.text = "";
         }
+    }
 
-        //robot_actions.Clear();
+    // Send user prompt to python to input into ollama, recieve back list of commands
+    private string[] SendToPython(string message)
+    {
+        try
+        {
+            using (TcpClient client = new TcpClient("127.0.0.1", 65432))
+            using (NetworkStream stream = client.GetStream())
+            {
+                byte[] data = Encoding.ASCII.GetBytes(message);
+                stream.Write(data, 0, data.Length);
+
+                byte[] responseData = new byte[1024];
+                int bytes = stream.Read(responseData, 0, responseData.Length);
+                string response = Encoding.ASCII.GetString(responseData, 0, bytes);
+                Debug.Log("Response recieved from Python: " + response);
+
+                string[] actions = response.Split(',');
+                return actions;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Failed to send data: " + ex.Message);
+            return new string[0];
+        }
     }
 }
