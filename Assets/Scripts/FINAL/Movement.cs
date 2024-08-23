@@ -14,10 +14,13 @@ public class Movement : MonoBehaviour
 
     public IEnumerator Walking(Vector3 direction, GameObject robot)
     {
-        Vector3 targetPosition = robot.transform.position + direction * distance;
+        // Transform direction to local space
+        Vector3 localDirection = robot.transform.TransformDirection(direction);
+
+        Vector3 targetPosition = robot.transform.position + localDirection * distance;
         while (Vector3.Distance(robot.transform.position, targetPosition) > 0.01f)
         {
-            Vector3 stepTarget = robot.transform.position + direction * stepSize;
+            Vector3 stepTarget = robot.transform.position + localDirection * stepSize;
             if (Vector3.Distance(stepTarget, targetPosition) > Vector3.Distance(robot.transform.position, targetPosition))
             {
                 stepTarget = targetPosition;
@@ -42,12 +45,15 @@ public class Movement : MonoBehaviour
 
     public IEnumerator Sliding(Vector3 direction, GameObject robot)
     {
-        Vector3 targetPosition = robot.transform.position + direction * distance;
+        // Transform direction to local space
+        Vector3 localDirection = robot.transform.TransformDirection(direction);
+
+        Vector3 targetPosition = robot.transform.position + localDirection * distance;
         while (Vector3.Distance(robot.transform.position, targetPosition) > 0.01f)
         {
             robot.transform.position = Vector3.MoveTowards(robot.transform.position, targetPosition, moveSpeed * Time.deltaTime);
             yield return null;
-        }
+        } 
     }
 
     public IEnumerator Turn(bool rightTurn, GameObject robot)

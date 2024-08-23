@@ -21,7 +21,9 @@ public class ToyRobot : MonoBehaviour
 
     private Movement simpleMovement;
 
-    public Camera cam;                          
+    public Camera cam;
+
+    public TMPro.TMP_Text myText;
 
     private void Awake()
     {
@@ -32,6 +34,8 @@ public class ToyRobot : MonoBehaviour
     {
         foreach (string action in actions)
         {
+            myText.text = "Action: " + action;
+            Debug.Log(action);
             string trimmedAction = action.Trim().ToLower();
             Thread.Sleep(500);
 
