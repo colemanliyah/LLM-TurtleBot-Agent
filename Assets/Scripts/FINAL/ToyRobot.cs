@@ -9,7 +9,7 @@ using System.Text;
 using System;
 
 /// <summary>
-/// This class is used to control the behavior of our Robot 
+/// This class is used to add the behaviors for the main scene
 /// </summary>
 public class ToyRobot : MonoBehaviour
 {
@@ -21,7 +21,9 @@ public class ToyRobot : MonoBehaviour
 
     private Movement simpleMovement;
 
-    public Camera cam;                          
+    public Camera cam;
+
+    public TMPro.TMP_Text myText;
 
     private void Awake()
     {
@@ -32,7 +34,7 @@ public class ToyRobot : MonoBehaviour
     {
         foreach (string action in actions)
         {
-            Debug.Log("HERE");
+            myText.text = "Action: " + action;
             Debug.Log(action);
             string trimmedAction = action.Trim().ToLower();
             Thread.Sleep(500);
@@ -89,9 +91,11 @@ public class ToyRobot : MonoBehaviour
             using (TcpClient client = new TcpClient("127.0.0.1", 65432))
             using (NetworkStream stream = client.GetStream())
             {
+                // Send data to python for ollama
                 byte[] data = Encoding.ASCII.GetBytes(message);
                 stream.Write(data, 0, data.Length);
 
+                // recieve ollama response from python
                 byte[] responseData = new byte[1024];
                 int bytes = stream.Read(responseData, 0, responseData.Length);
                 string response = Encoding.ASCII.GetString(responseData, 0, bytes);

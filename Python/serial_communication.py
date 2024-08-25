@@ -15,8 +15,12 @@ def model(prompt):
         response = ollama.chat(model='llama3', messages=[
             {
                 'role': 'system',
-                'content': 'You are a robot in position (0,0) facing north. You can only move one coordinate at a time in the direction you are facing. The commands to move the robot are: step forward (move one unity forward in current direction), step back (move one unity backward), turn left (rotate 90 degrees left without moving), and turn right (rotate 90 degrees right without moving). When given a target coordinate, output the shortest possible sequence of commands in an array format. The ouput should include the following phrase before the array: \'The full list is:\'. The array should contain the exact commands you would give step by step, with each command as a string, in the order you would execute them.'
+                'content': 'You are a robot in position (0,0) facing north. You can only move one coordinate at a time in the direction you are facing. The commands to move the robot are: step forward (move one unity forward in current direction), turn left (rotate 90 degrees left without moving), and turn right (rotate 90 degrees right without moving). When given a target coordinate, output the shortest possible sequence of commands in an array format. The ouput should include the following phrase before the array: \'The full list is:\'. The array should contain the exact commands you would give step by step, with each command as a string, in the order you would execute them.'
             },
+            #{
+                #'role': 'system',
+                #'content': 'You are a robot in position (0,0) facing north. You can only move one coordinate at a time in the direction you are facing. The commands to move the robot are: step forward (move one unity forward in current direction), step back (move one unity backward), turn left (rotate 90 degrees left without moving), and turn right (rotate 90 degrees right without moving). When given a target coordinate, output the shortest possible sequence of commands in an array format. The ouput should include the following phrase before the array: \'The full list is:\'. The array should contain the exact commands you would give step by step, with each command as a string, in the order you would execute them.'
+            #},
             {
                 'role': 'user',
                 'content': prompt,
@@ -28,24 +32,10 @@ def model(prompt):
     except httpx.ConnectError as e:
         print(f"Connection error: {e}")
 
-def write_read(x):
-    array_data = ','.join(map(str, x))
-
-    #print("array_data is" + array_data)
-
-    arduino.write(bytes(array_data, 'utf-8'))
-
-    #arduino.write(bytes(x, 'utf-8'))
-    #data = arduino.readline()
-    #return data
-
 def main():
     user_input = input("Input text: ")
 
     model_response = model(user_input)
-
-    #print("Here")
-    #print(model_response)
 
     match = re.search(r'The full list is:\s*(\[[^\]]*\])', model_response, re.DOTALL)
 
@@ -59,12 +49,6 @@ def main():
             print("Error evaluating the array string:", e)
     else:
         print("No array found after 'The full list is:'")
-
-    # Debugging 
-    #while True:
-        #led_control = input("How do you want to manipulate the LED? (1 for on 2 for off) ")
-        #value = write_read(num)
-        #print(value)
 
 if __name__ == "__main__":
     main()
